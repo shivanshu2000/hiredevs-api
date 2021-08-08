@@ -5,8 +5,7 @@
   "description": "Hire Devs api",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "node server.js"
   },
   "author": "Shivanshu Sharma",
   "license": "MIT",
