@@ -73,11 +73,8 @@ export const updateProject = asyncHandler(async (req, res, next) => {
     await sendEmail({
       to: toEmail,
       from: 'shivanshusr82@gmail.com',
-      subject: 'Verify your email',
-      text: `
-      Thanks for signing up! The sign up code for verifying email is:
-      ${code}
-      `,
+      subject: subject,
+      text: text,
     });
   }
   console.log(toEmail, subject, text);
