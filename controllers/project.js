@@ -68,15 +68,18 @@ export const updateProject = asyncHandler(async (req, res, next) => {
     subject = 'Approval request';
     text = `Your ${n.title}'s developer has requested an approval. Do approve the requests to help developers improve their profile`;
   }
-  await sendEmail({
-    to: email,
-    from: 'shivanshusr82@gmail.com',
-    subject: 'Verify your email',
-    text: `
-    Thanks for signing up! The sign up code for verifying email is:
-    ${code}
-    `,
-  });
+
+  if (toEmail && subject && text) {
+    await sendEmail({
+      to: toEmail,
+      from: 'shivanshusr82@gmail.com',
+      subject: 'Verify your email',
+      text: `
+      Thanks for signing up! The sign up code for verifying email is:
+      ${code}
+      `,
+    });
+  }
   console.log(toEmail, subject, text);
   res.status(200).json({ success: true, new: n });
 });
