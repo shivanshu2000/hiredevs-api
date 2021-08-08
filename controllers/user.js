@@ -1,7 +1,6 @@
-import asyncHandler from '../middlewares/asynchandler.js';
+import asyncHandler from '../middlewares/asyncHandler.js';
 import User from '../models/User.js';
 import Project from '../models/Project.js';
-import mongoose from 'mongoose';
 
 export const getUsers = asyncHandler(async (req, res, next) => {
   let users;
