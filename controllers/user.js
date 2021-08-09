@@ -1,6 +1,7 @@
 import asyncHandler from '../middlewares/asyncHandler.js';
 import User from '../models/User.js';
 import Project from '../models/Project.js';
+import ErrorResponse from '../utils/errorResponse.js';
 
 export const getUsers = asyncHandler(async (req, res, next) => {
   let users;
@@ -28,6 +29,9 @@ export const getUsers = asyncHandler(async (req, res, next) => {
 export const getUser = asyncHandler(async (req, res, next) => {
   const username = req.params.username;
   const userData = await User.findOne({ username: username });
+  if (!userData) {
+    return next(new ErrorResponse('User not found', 400));
+  }
   res.status(200).json({ success: true, userData });
 });
 
@@ -124,6 +128,9 @@ export const getNumbers = asyncHandler(async (req, res, next) => {
 
   const user = await User.findOne({ username });
   console.log(user);
+  if (!user) {
+    return next(new ErrorResponse('User not found', 404));
+  }
 
   const total = await Project.find({
     developerId: user._id,
