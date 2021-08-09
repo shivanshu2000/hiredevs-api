@@ -18,7 +18,6 @@ export const signup = asyncHandler(async (req, res, next) => {
 
   const userByName = await User.findOne({ username });
 
-  console.log(userByName, !!username, req.body);
   if (userByName && username === userByName.username && userByName.isVerified) {
     console.log('here');
     return res.status(409).json({
@@ -40,7 +39,7 @@ export const signup = asyncHandler(async (req, res, next) => {
     '';
 
   let newUser;
-  console.log({ ...req.body });
+
   if (user && !user.isVerified) {
     if (userType === 'client') {
       newUser = await User.findOneAndUpdate(
@@ -78,7 +77,6 @@ export const signup = asyncHandler(async (req, res, next) => {
     });
   }
 
-  console.log(newUser);
   await sendEmail({
     to: email,
     from: 'shivanshusr82@gmail.com',
@@ -188,6 +186,5 @@ export const verifyCode = asyncHandler(async (req, res, next) => {
 
 export const getUser = asyncHandler(async (req, res, next) => {
   const user = req.user;
-  console.log(req.user);
   res.status(200).json({ success: true, user: user });
 });

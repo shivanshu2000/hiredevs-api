@@ -4,14 +4,11 @@ import ErrorResponse from '../utils/errorResponse.js';
 
 export const addPost = asyncHandler(async (req, res, next) => {
   const { title, description, webUrl } = req.body;
-  console.log(req.body);
+
   const user = req.user;
 
-  console.log(webUrl, req.body);
   if (!!webUrl) {
-    console.log(webUrl, req.body, 'inside');
     if (!webUrl.includes('https://')) {
-      console.log('checked');
       return next(new ErrorResponse('Please enter a valid website url', 400));
     }
   }
@@ -30,7 +27,6 @@ export const addPost = asyncHandler(async (req, res, next) => {
 export const getPosts = asyncHandler(async (req, res, next) => {
   const user = req.user;
   const username = req.params.username;
-  console.log(username);
   //   if (user.userType === 'client') next(new ErrorResponse('Unauthorized', 401));
 
   const posts = await Post.find({ developerName: username });

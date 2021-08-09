@@ -6,9 +6,6 @@ import ErrorResponse from '../utils/errorResponse.js';
 export const getUsers = asyncHandler(async (req, res, next) => {
   let users;
 
-  console.log(req.query);
-
-  console.log(!!req.query.username);
   if (!!req.query.username) {
     users = await User.find({
       username: { $regex: req.query.username, $options: 'i' },
@@ -17,10 +14,10 @@ export const getUsers = asyncHandler(async (req, res, next) => {
   } else if (!!req.query.tag) {
     users = await User.find({
       userType: 'developer',
-      technologies: req.query.tag,
+      technologies: { $regex: req.query.tag, $options: 'i' },
     });
   } else {
-    users = await User.find({ userType: 'developer' });
+    users = await User.find({ userType: 'developer' }).limit(10);
   }
 
   res.status(200).json({ success: true, users });
@@ -30,7 +27,7 @@ export const getUser = asyncHandler(async (req, res, next) => {
   const username = req.params.username;
   const userData = await User.findOne({ username: username });
   if (!userData) {
-    return next(new ErrorResponse('User not found', 400));
+    return next(new ErrorResponse(`User not found ${username}`, 400));
   }
   res.status(200).json({ success: true, userData });
 });
@@ -124,10 +121,9 @@ export const getDashboardData = asyncHandler(async (req, res, next) => {
 
 export const getNumbers = asyncHandler(async (req, res, next) => {
   const { username } = req.params;
-  console.log(req.user._id);
 
   const user = await User.findOne({ username });
-  console.log(user);
+
   if (!user) {
     return next(new ErrorResponse('User not found', 404));
   }
@@ -140,6 +136,5 @@ export const getNumbers = asyncHandler(async (req, res, next) => {
     developerId: user._id,
     takenBack: true,
   }).countDocuments();
-  console.log(completed, total);
   res.status(200).json({ success: true, profileNumbers: { total, completed } });
 });

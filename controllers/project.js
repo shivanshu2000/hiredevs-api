@@ -31,7 +31,6 @@ export const addProject = asyncHandler(async (req, res, next) => {
 
   await Project.create({ title, description, developerId, clientId });
   const user = await User.findById(developerId);
-  console.log(user);
 
   await sendEmail({
     to: user.email,
@@ -46,7 +45,7 @@ export const addProject = asyncHandler(async (req, res, next) => {
 
 export const updateProject = asyncHandler(async (req, res, next) => {
   const id = req.params.projectId;
-  console.log(id, req.body);
+
   const n = await Project.findByIdAndUpdate(id, { ...req.body }, { new: true });
 
   let toEmail, text, subject;
