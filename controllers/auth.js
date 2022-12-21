@@ -77,9 +77,11 @@ export const signup = asyncHandler(async (req, res, next) => {
     });
   }
 
+  console.log('from email: ', process.env.FROM_EMAIL)
+
   const data = await sendEmail({
     to: email,
-    from: '195531@nith.ac.in',
+    from: process.env.FROM_EMAIL,
     subject: 'Verify your email',
     text: `
     Thanks for signing up! The sign up code for verifying email is:
